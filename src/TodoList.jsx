@@ -1,6 +1,7 @@
 import  { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Todo from "./Todo";
 
 const TodoList = () => {
   const [isEditing, setIsEditing] = useState(null);
@@ -9,6 +10,7 @@ const TodoList = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [filteredTodos, setFilteredTodos] = useState([]);
+  const [theme, seTheme] = useState("light")
   const todosPerPage = 20;
 
   const [isModalOpen, setModalOpen] = useState(false);
@@ -62,8 +64,36 @@ const TodoList = () => {
     setModalOpen(false);
   };
 
+
+
+  useEffect(() => {
+    switch (theme) {
+      case "light": {
+        if (document?.body) {
+          document.body.classList.remove("light", "dark");
+          document.body.classList.add("light");
+        }
+
+        break;
+      }
+      case "dark": {
+        if (document?.body) {
+          document.body.classList.remove("light", "dark");
+          document.body.classList.add("dark");
+        }
+
+        break;
+      }
+      default: {
+        //
+      }
+    }
+  }, [theme]);
+
+
 return (
   <div className="list">
+    <button type="button" onClick={() => seTheme(theme === "light" ? "dark" : "light")}>dark mode</button>
     <h1 className="header">A Todo List Application created by Elo</h1>
     <input
       type="text"
@@ -72,37 +102,11 @@ return (
       onChange={(e) => setSearch(e.target.value)}
       className="searchInput"
     />
-    <ul>
+    <div style={{display:"felx",flexDirection:"column",gap: "10px"}} >
       {paginatedTodos.map((todo, index) => (
-        <li key={todo.id}>
-          {isEditing === index ? (
-            <>
-              <input
-                type="text"
-                value={editText}
-                onChange={(e) => setEditText(e.target.value)}
-                className="edit-input"
-              />
-              <button className="save" onClick={() => handleSave(index)}>
-                Save
-              </button>
-            </>
-          ) : (
-            <>
-            <Link to={`/todo/${todo.id}`}>{todo.title}</Link>
-            <div className="function">
-            <button className="edit" onClick={() => handleEdit(index)}>
-            ✏️
-          </button>
-          <button className="delete" onClick={() => handleDelete(index)}>
-            ❌
-          </button>
-          </div>
-          </>
-          )}
-        </li>
+        <Todo todo={todo} key={todo.id}/>
       ))}
-    </ul>
+    </div>
     <div>
       <button
         disabled={page === 1}

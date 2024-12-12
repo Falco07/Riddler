@@ -1,0 +1,16 @@
+.todo, .todo_isEditing {
+  display: flex;
+  width: 100%;
+  border: thin solid var(--body_color);
+  border-radius: 4px;
+  padding: 20px;
+  justify-content: space-between;
+  margin-block: 10px;
+}
+
+
+.button_group {
+    display: flex;
+    align-items: center;
+
+}

@@ -97,7 +97,13 @@ body {
   /* place-items: center; */
   min-width: 320px;
   min-height: 100vh;
-  background: var(--body_background);
+}
+
+
+
+.dark {
+--body_background:#222222;
+  background-color:var(--body_background) ;
 }
 
 h1 {
